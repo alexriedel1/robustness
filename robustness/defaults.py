@@ -77,6 +77,7 @@ TRAINING_ARGS = [
     ['lr-interpolation', ["linear", "step"], 'Drop LR as step function or linearly', "step"],
     ['adv-train', [0, 1], 'whether to train adversarially', REQ],
     ['adv-eval', [0, 1], 'whether to adversarially evaluate', None], 
+    ['val_every_n_epochs', int, 'validate every n epochs', 1], 
     ['log-iters', int, 'how frequently (in epochs) to log', 5],
     ['save-ckpt-iters', int, 'how frequently (epochs) to save \
             (-1 for none, only saves best and last)', -1]

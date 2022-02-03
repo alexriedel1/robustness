@@ -330,8 +330,8 @@ def train_model(args, model, loaders, *, checkpoint=None, dp_device_ids=None,
         save_its = args.save_ckpt_iters
         should_save_ckpt = (epoch % save_its == 0) and (save_its > 0)
         should_log = (epoch % args.log_iters == 0)
-
-        if should_log or last_epoch or should_save_ckpt:
+        
+        if (should_log or last_epoch or should_save_ckpt) and (epoch+1) % args.val_every_n_epochs == 0:
             # log + get best
             ctx = ch.enable_grad() if disable_no_grad else ch.no_grad() 
             with ctx:
