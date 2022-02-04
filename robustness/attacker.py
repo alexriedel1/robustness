@@ -155,7 +155,7 @@ class Attacker(ch.nn.Module):
                 inp = self.normalize(inp)
             output = self.model(inp)
             if custom_loss:
-                return custom_loss(self.model, inp, target)
+                return custom_loss(output, target)
 
             return criterion(output, target), output
 
