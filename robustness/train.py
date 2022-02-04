@@ -455,22 +455,22 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
         # measure accuracy and record loss
         top1_acc = float('nan')
         top5_acc = float('nan')
-        try:
-            maxk = min(5, model_logits.shape[-1])
-            if has_attr(args, "custom_accuracy"):
-                prec1, prec5 = args.custom_accuracy(model_logits, target)
-            else:
-                prec1, prec5 = helpers.accuracy(model_logits, target, topk=(1, maxk))
-                prec1, prec5 = prec1[0], prec5[0]
+        #try:
+        maxk = min(5, model_logits.shape[-1])
+        if has_attr(args, "custom_accuracy"):
+            prec1, prec5 = args.custom_accuracy(model_logits, target)
+        else:
+            prec1, prec5 = helpers.accuracy(model_logits, target, topk=(1, maxk))
+            prec1, prec5 = prec1[0], prec5[0]
 
-            losses.update(loss.item(), inp.size(0))
-            top1.update(prec1, inp.size(0))
-            top5.update(prec5, inp.size(0))
+        losses.update(loss.item(), inp.size(0))
+        top1.update(prec1, inp.size(0))
+        top5.update(prec5, inp.size(0))
 
-            top1_acc = top1.avg
-            top5_acc = top5.avg
-        except:
-            warnings.warn('Failed to calculate the accuracy.')
+        top1_acc = top1.avg
+        top5_acc = top5.avg
+        #except:
+        #    warnings.warn('Failed to calculate the accuracy.')
 
         reg_term = 0.0
         if has_attr(args, "regularizer"):
