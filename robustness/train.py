@@ -1,7 +1,7 @@
 import torch as ch
 import numpy as np
 import torch.nn as nn
-from torch.optim import SGD, lr_scheduler
+from torch.optim import SGD, Adam, lr_scheduler
 from torchvision.utils import make_grid
 from cox.utils import Parameters
 
@@ -79,8 +79,14 @@ def make_optimizer_and_schedule(args, model, checkpoint, params):
     """
     # Make optimizer
     param_list = model.parameters() if params is None else params
-    optimizer = SGD(param_list, args.lr, momentum=args.momentum,
-                                weight_decay=args.weight_decay)
+    if args.optimizer == 'Adam':
+        print("Using ADAM optimizer")
+        optimizer = Adam(param_list, lr=args.lr, betas=(0.9, 0.999), eps=1e-08,
+                         weight_decay=args.weight_decay)
+    else:
+        print("Using SGD optimizer")                  
+        optimizer = SGD(param_list, args.lr, momentum=args.momentum,
+                                    weight_decay=args.weight_decay)
 
     if args.mixed_precision:
         model.to('cuda')
