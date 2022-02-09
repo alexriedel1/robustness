@@ -449,7 +449,7 @@ def _model_loop(args, loop_type, loader, model, opt, epoch, adv, writer):
     iterator = tqdm(enumerate(loader), total=len(loader))
     for i, (inp, target) in iterator:
        # measure data loading time
-        #target = target.cuda(non_blocking=True)
+        target = target.cuda(non_blocking=True)
         output, final_inp = model(inp, target=target, make_adv=adv,
                                   **attack_kwargs)
         loss = train_criterion(output, target)
